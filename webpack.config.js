@@ -6,6 +6,8 @@ const path = require('path')
 const NODE_ENV = process.env.NODE_ENV || 'dev'
 const _DEBUG_ = NODE_ENV === 'dev'
 
+const BASEURL = NODE_ENV === 'production' ? '' : '/'
+
 const envConfig = {
   production: {
     watch: false
@@ -19,7 +21,7 @@ const webpackConfig = {
   output: {
     path: path.join(__dirname, 'dist'),
     filename: 'App.js',
-    publicPath: '/'
+    publicPath: BASEURL
   },
   entry: path.join(__dirname, 'src/js/app.js'),
   devtool: '',
@@ -72,6 +74,7 @@ const webpackConfig = {
 
     new webpack.DefinePlugin({
       _DEBUG_: JSON.stringify(_DEBUG_),
+      BASEURL: JSON.stringify(BASEURL),
     }),
   ],
 
