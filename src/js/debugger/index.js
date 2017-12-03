@@ -1,16 +1,21 @@
 'use strict'
 
-import {state, elements} from './state'
-
-let isOpen = false
+import {state} from '../state'
 
 function initDebugger(app) {
+
+  let isOpen = false
 
   const debugOpen = document.querySelector('#debugger-open')
   const debugContent = document.querySelector('#debugger-content')
   const debugContainer = document.querySelector('#debugger')
 
-  debugOpen.addEventListener('click', () => {
+  if (!debugOpen || !debugContent || !debugContainer){
+    console.log('Couldn\'t initialize debugger - missing DOM elements')
+    return
+  }
+
+  debugOpen.addEventListener('click', function () {
 
     isOpen = !isOpen
 

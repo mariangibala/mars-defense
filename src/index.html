@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Defense game - pixi.js playground</title>
+    <title>Mars-Defense - pixi.js playground</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -20,7 +20,7 @@
             overflow: hidden;
             min-width: 100vw;
             min-height: 100vh;
-            display:flex;
+            display: flex;
             justify-content: center;
             align-items: center;
         }
@@ -29,39 +29,7 @@
             display: block;
         }
 
-        #debugger {
-            background-color: antiquewhite;
-            display:none;
-            position: fixed;
-            top:0;
-            left:0;
-            width:100vw;
-            height:100vh;
-            background-color: rgba(0,0,0,0.8);
-            color: #fff;
-            overflow: auto;
-            font-size: 12px;
-            line-height: 13px;
-        }
-
-        #debugger-content {
-            margin: 20px;
-        }
-
-        #debugger-open {
-            position:fixed;
-            top: 50vh;
-            left: 0;
-            background-color: white;
-            color: #ff0000;
-            display: block;
-            padding: 5px;
-            font-size: 10px;
-            font-weight: bold;
-            cursor: pointer;
-
-        }
-
+        <%= htmlWebpackPlugin.options.debuggerCSS %>
 
     </style>
 
@@ -70,14 +38,7 @@
 <body>
 
 <div id="app"></div>
-
-<div id="debugger">
-    <pre id="debugger-content">
-      debugger
-    </pre>
-</div>
-
-<p id="debugger-open">D</p>
+<%= htmlWebpackPlugin.options.debugger %>
 
 </body>
 </html>

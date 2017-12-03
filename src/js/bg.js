@@ -83,9 +83,9 @@ function updateBG() {
   elements.bg2.el.x = state.scene.bgX
   elements.bg2.el.y = state.scene.bgY
 
-  state.scene.bg2nextalpha = state.mouse.distanceFromCenterPercentage / 100
-  state.scene.bg2alpha = animateValue(state.scene.bg2alpha, state.scene.bg2nextalpha, 40)
-  elements.bg2.alpha = state.scene.bg2alpha
+  state.scene.bg2NextAlpha = state.mouse.distanceFromCenterPercentage / 100
+  state.scene.bg2Alpha = animateValue(state.scene.bg2Alpha, state.scene.bg2NextAlpha, 40)
+  elements.bg2.alpha = state.scene.bg2Alpha
 
 
   // BG3 - radioactive
