@@ -1,21 +1,24 @@
 'use strict'
 
-import {state, elements, animationsLoops, tasks} from '../state'
+import {state, elements, animationsLoops, tasks, collections} from '../state'
 
-let id = 1  // internal id counter for elements
+let id = 1  // internal id counter for ALL game elements
 
-function getId() {
+function generateId() {
   id++
   return 'id_' + id
 }
 
+/*
+List of props to sync from game state to pixi native elements
+ */
 const syncStateProps = [
   'x', 'y', 'alpha', 'rotation', 'scale'
 ]
 
 class Element {
   constructor(el, id, container) {
-    this.id = id || getId()
+    this.id = id || generateId()
 
     if (el) {
       this.el = el
@@ -50,16 +53,15 @@ class Element {
   }
 
   kill() {
-    this.__killed = true
+    this._killed = true
   }
 
-  __kill() {
-    if (this.type) {
-      elements[this.type].delete(this.id)
+  _cleanUp() {
+    if (this.collectionId) {
+      collections[this.collectionId].delete(this.id)
     }
 
     delete elements[this.id]
-
 
     state[this.id] = null
     delete state[this.id]
@@ -100,8 +102,8 @@ class Element {
   update() {
     this.onUpdate()
 
-    if (this.__killed) {
-      this.__kill()
+    if (this._killed) {
+      this._cleanUp()
     } else {
       this.syncState()
     }

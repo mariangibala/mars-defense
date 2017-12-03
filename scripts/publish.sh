@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e # stop on error
 
-npm run build
+npm run build:ghpages
 git checkout -b gh-pages
 git add -f dist
 git commit -m "deploy to gh-pages"

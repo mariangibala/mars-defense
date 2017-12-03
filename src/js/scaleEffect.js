@@ -7,7 +7,7 @@ function applyScaleEffect(target){
   target.el.interactive = true
 
   target.el
-    .on("mouseover", hoverOn)
+    .on('mouseover', hoverOn)
     .on('mouseout', hoverOut)
 
 

@@ -3,7 +3,7 @@
 const PIXI = require('pixi.js')
 
 import Element from '../Element'
-import {state, elements, getNextEnemy} from '../../state'
+import {state, elements, getNextEnemy, collections} from '../../state'
 import createRectangle from '../../createRectangle'
 import imgs from '../../imgs'
 import movement from './movement'
@@ -77,7 +77,7 @@ class Enemy extends Element {
 
 
     container.addChild(el)
-    elements.enemy.set(id, this)
+    collections.enemy.set(id, this)
     elements[id] = this
 
     movement(id)
@@ -112,7 +112,7 @@ class Enemy extends Element {
 
 }
 
-Enemy.prototype.type = 'enemy'
+Enemy.prototype.collectionId = 'enemy'
 Enemy.prototype.lifeHeight = 2
 
 export default Enemy

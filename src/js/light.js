@@ -6,7 +6,7 @@ import {state, elements} from './state'
 import {getRandomDecimalBetween, getRandomIntBetween} from './helpers'
 import imgs from './imgs'
 import {centerElToScene} from './entityHelpers'
-import {animateLoop, animateValue} from './animation'
+import {animateLoop} from './animation'
 import Element from './elements/Element'
 
 function createLight(app) {
@@ -30,7 +30,6 @@ function createLight(app) {
       duration: getRandomIntBetween(40, 60 * 4)
     }
   })
-
 
 }
 
