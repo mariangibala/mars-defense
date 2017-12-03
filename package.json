@@ -1,13 +1,12 @@
 {
   "name": "mars-defense",
   "version": "1.0.0",
-  "description": "Simple shooter game build on top of pixi.js",
+  "description": "Shooter game build on top of pixi.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "webpack-dev-server --config ./webpack.config.js --open",
-    "build": "rimraf dist && cross-env NODE_ENV=production webpack --config ./webpack.config.js",
-    "release": "npm run build && npm run deploy",
-    "deploy": "cd dist && git add --all && git commit -m \"Release at $(date)\" && git push"
+    "server:dev": "webpack-dev-server --config ./webpack.config.js --open --env.appconfig=./configs/server.dev.js",
+    "server:production": "webpack-dev-server --config ./webpack.config.js --open --env.appconfig=./configs/server.production.js",
+    "build:local": "rimraf dist && webpack --config ./webpack.config.js --env.appconfig=./configs/build.production.js",
+    "build:ghpages": "rimraf dist && webpack --config ./webpack.config.js --env.appconfig=./configs/build.ghpages.js"
   },
   "author": "Marian Gibala",
   "license": "MIT",

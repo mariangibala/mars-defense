@@ -3,16 +3,16 @@
 const PIXI = require('pixi.js')
 
 import Element from './Element'
-import {state, elements} from '../state'
+import {state, elements, collections} from '../state'
 import imgs from '../imgs'
 
 
 class Bullet extends Element {
-  constructor({x, y, vx, vy, type}, container) {
+  constructor({x, y, vx, vy, collectionId}, container) {
     super()
 
     this.el = new PIXI.Sprite(PIXI.loader.resources[imgs.bullet].texture)
-    this.type = type
+    this.collectionId = collectionId
 
     const {id, el} = this
 
@@ -32,7 +32,7 @@ class Bullet extends Element {
     el.scale.set(1.5, 1.5)
 
     container.addChild(el)
-    elements[type].set(id, this)
+    collections[collectionId].set(id, this)
     elements[id] = this
 
   }

@@ -1,5 +1,7 @@
-node_modules
-.env
 .idea
-psd
-dist
+.vscode
+
+**/node_modules/
+**/npm-debug.log*
+**/dist/
+

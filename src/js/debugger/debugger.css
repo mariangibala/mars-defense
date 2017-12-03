@@ -1,0 +1,33 @@
+
+#debugger {
+    background-color: antiquewhite;
+    display:none;
+    position: fixed;
+    top:0;
+    left:0;
+    width:100vw;
+    height:100vh;
+    background-color: rgba(0,0,0,0.8);
+    color: #fff;
+    overflow: auto;
+    font-size: 12px;
+    line-height: 13px;
+}
+
+#debugger-content {
+    margin: 20px;
+}
+
+#debugger-open {
+    position:fixed;
+    top: 50vh;
+    left: 0;
+    background-color: white;
+    color: #ff0000;
+    display: block;
+    padding: 5px;
+    font-size: 10px;
+    font-weight: bold;
+    cursor: pointer;
+
+}

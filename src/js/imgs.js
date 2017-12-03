@@ -1,8 +1,8 @@
 'use strict'
 
 const imgs = {
-  tower: 'src/img/m2.png',
-  enemy: 'src/img/m.png',
+  tower: 'src/img/player.png',
+  enemy: 'src/img/enemy.png',
   bg: 'src/img/bg.jpg',
   radioactive: 'src/img/bg2.png',
   light: 'src/img/light.png',

@@ -1,17 +1,24 @@
 'use strict'
 
-import {state, elements, resetState, tasks, animationsLoops} from './state'
+const PIXI = require('pixi.js')
+
+import {state, elements, resetState, tasks, animationsLoops, collections} from './state'
 import hitTest from './hitTest'
-import {getDistance, getRandomDecimalBetween, getRandomIntBetween} from './helpers'
+import {getDistance} from './helpers'
 import {updateBG} from './bg'
 import {updateLight} from './light'
 import Enemy from './elements/Enemy'
 import Element from './elements/Element'
 import createScene from './createScene'
 import applyScaleEffect from './scaleEffect'
-import {animate, animateLoop, updateBlocks} from './animation'
+import {animate} from './animation'
 
-function start(func, app) {
+
+/*
+@param {Pixi Application} app
+@param {Function} func in current pixi ticker to be removed.
+ */
+function start(app, func) {
 
   if (func) app.ticker.remove(func)
 
@@ -36,7 +43,6 @@ function endGameLoop(delta, app, thisLoop) {
 
 function loop(delta, {app, container}, loopInstance) {
 
-
   state.count++
 
   if (state.count === 121) {
@@ -52,21 +58,23 @@ function loop(delta, {app, container}, loopInstance) {
   state.mouse.distanceFromCenterPercentage = Math.round(
     state.mouse.distanceFromCenter / state.mouse.maxDistanceFromCenter * 100)
 
-  elements.debug.text = state.count
+  if (DEBUG) {
+    elements.debug.text = state.count
+  }
 
   updateBG()
   updateLight()
 
-  elements.enemy.forEach(i => i.update())
-  elements.tower.forEach(i => i.update())
-  elements.towerBullet.forEach(i => i.update())
+  collections.enemy.forEach(i => i.update())
+  collections.tower.forEach(i => i.update())
+  collections.towerBullet.forEach(i => i.update())
 
 
-  elements.enemy.forEach(enemy => {
+  collections.enemy.forEach(enemy => {
 
     const enemyBounds = enemy.el.getBounds()
 
-    elements.towerBullet.forEach(bullet => {
+    collections.towerBullet.forEach(bullet => {
 
       const bulletBounds = bullet.el.getBounds()
 
@@ -89,7 +97,7 @@ function loop(delta, {app, container}, loopInstance) {
   })
 
 
-  elements.enemy.forEach(enemy => {
+  collections.enemy.forEach(enemy => {
     if (!state[enemy.id].life) return
 
     const enemyBounds = enemy.el.getBounds()
@@ -118,15 +126,15 @@ function loop(delta, {app, container}, loopInstance) {
   })
 
 
-  if (state.isBetweenLevels === false && elements.enemy.size < 1) {
+  if (state.isBetweenLevels === false && collections.enemy.size < 1) {
     state.isBetweenLevels = true
     setTimeout(() => {
       let y = Math.round(state.level * 1.3) + 5
       while (y) {
 
-        // ensure that at least one is targeting player
+        // ensure that at least 2 enemies are targeting player
         let destination
-        if (y === 1){
+        if (y <= 2) {
           destination = {x: state.scene.centerX, y: state.scene.centerY}
         }
 
@@ -148,14 +156,14 @@ function loop(delta, {app, container}, loopInstance) {
 
     elements.levelInfo.text = 'GAME OVER'
 
-    elements.enemy.forEach(el => el.stopAnimations())
+    collections.enemy.forEach(el => el.stopAnimations())
 
     const endLoopContainer = function (delta) {
       endGameLoop(delta, app, endLoopContainer)
     }
 
-    const playBtn = new Element(new PIXI.Text("Play Again", {
-      fontFamily: "Arial",
+    const playBtn = new Element(new PIXI.Text('Play Again', {
+      fontFamily: 'Arial',
       fontSize: 26,
       fill: ['#ffffff', '#f1f1f1', '#FFFFFF'],
       fontWeight: 'bold',
@@ -174,7 +182,7 @@ function loop(delta, {app, container}, loopInstance) {
 
     applyScaleEffect(playBtn)
 
-    playBtn.el.on("click", start.bind(null, endLoopContainer, app))
+    playBtn.el.on('click', start.bind(null, app, endLoopContainer))
 
     animate({
       id: 'sceneTint',

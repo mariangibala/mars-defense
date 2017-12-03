@@ -7,10 +7,10 @@ function createDragAndDrop(target){
   target.el.interactive = true
 
   target.el
-    .on("mousedown", onDragStart)
-    .on("mouseup", onDragEnd)
+    .on('mousedown', onDragStart)
+    .on('mouseup', onDragEnd)
     .on('mouseupoutside', onDragEnd)
-    .on("mousemove", onMove)
+    .on('mousemove', onMove)
 
 
   function onDragStart(e){

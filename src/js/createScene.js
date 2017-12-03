@@ -56,20 +56,22 @@ function createScene(app) {
   // Life
   new PlayerLife({x: 15, y: state.scene.height - 25}, app.stage)
 
-  const defaultTextStyle = {fontFamily: "Arial", fontSize: 14, fill: "white"}
+  const defaultTextStyle = {fontFamily: 'Arial', fontSize: 14, fill: 'white'}
 
-  // debug info
-  elements.debug = new PIXI.Text("Hello Pixi!", defaultTextStyle)
-  elements.debug.position.set(15, 75)
-  app.stage.addChild(elements.debug)
+  if (DEBUG){
+    // debug info
+    elements.debug = new PIXI.Text('debuggerPlaceholder', defaultTextStyle)
+    elements.debug.position.set(15, 75)
+    app.stage.addChild(elements.debug)
+  }
 
   // level
-  elements.levelInfo = new PIXI.Text("LEVEL", defaultTextStyle)
+  elements.levelInfo = new PIXI.Text('LEVEL', defaultTextStyle)
   elements.levelInfo.position.set(15, 15)
   app.stage.addChild(elements.levelInfo)
 
   // score
-  elements.scoreInfo = new PIXI.Text("SCORE", defaultTextStyle)
+  elements.scoreInfo = new PIXI.Text('SCORE', defaultTextStyle)
   elements.scoreInfo.position.set(15, 45)
   app.stage.addChild(elements.scoreInfo)
 

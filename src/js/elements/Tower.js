@@ -4,7 +4,7 @@ const PIXI = require('pixi.js')
 
 import Element from './Element'
 import Bullet from './Bullet'
-import {state, elements} from '../state'
+import {state, elements, collections} from '../state'
 import imgs from '../imgs'
 import {rotateToPoint, setVector, getRandomIntBetween} from '../helpers'
 
@@ -37,7 +37,7 @@ class Tower extends Element {
     //createDragAndDrop(el, state)
 
     container.addChild(el)
-    elements.tower.set(id, this)
+    collections.tower.set(id, this)
     elements[id] = this
 
   }
@@ -60,7 +60,7 @@ class Tower extends Element {
         const bulletX = s.x + vector.x * 3
         const bulletY = s.y + vector.y * 3
 
-        new Bullet({x: bulletX, y: bulletY, vx: vector.x, vy: vector.y, type: 'towerBullet'}, this.container)
+        new Bullet({x: bulletX, y: bulletY, vx: vector.x, vy: vector.y, collectionId: 'towerBullet'}, this.container)
         s.nextShot = s.shotRate
       }
 
@@ -72,6 +72,6 @@ class Tower extends Element {
 
 }
 
-Tower.prototype.type = 'tower'
+Tower.prototype.collectionId = 'tower'
 
 export default Tower
