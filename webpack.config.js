@@ -25,7 +25,8 @@ module.exports = env => {
       publicPath: BASEURL
     },
     entry: path.join(__dirname, 'src/js/app.js'),
-    devtool: '',
+    devtool: DEBUG ? 'inline-source-map' : false,
+    target: 'web',
     watchOptions: {
       poll: 5000
     },
@@ -43,15 +44,6 @@ module.exports = env => {
             path.resolve(__dirname, 'src/js')
           ],
           loader: 'babel-loader',
-          options: {
-            presets: [['env', { modules: false }]],
-            plugins: [
-              'transform-runtime',
-              'syntax-dynamic-import',
-              'transform-class-properties',
-              'transform-object-rest-spread'
-            ]
-          }
         },
       ]
     },

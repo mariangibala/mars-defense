@@ -42,7 +42,7 @@ class Bullet extends Element {
 
     const s = state[this.id]
 
-    s.life--
+    s.life -= state.deltaTime
 
     s.alpha = s.life / s.totalLife + 0.3
 
@@ -51,8 +51,8 @@ class Bullet extends Element {
       return
     }
 
-    s.x += s.vx
-    s.y += s.vy
+    s.x += s.vx * state.deltaTime
+    s.y += s.vy * state.deltaTime
 
   }
 

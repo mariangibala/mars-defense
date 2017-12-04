@@ -9,6 +9,7 @@ import imgs from './imgs'
 import bindMouse from './input/mouseListener'
 import bindKey from './input/keyListener'
 import initDebugger from './debugger'
+import initPause from './pause'
 
 const app = new PIXI.Application(
   state.scene.width,
@@ -35,5 +36,9 @@ PIXI.loader.load(init)
 function init() {
   bindMouse(document.querySelector('canvas'))
   bindKey(17, 'ctrl')
+  bindKey(32, 'space')
+  initPause(app)
   start(app)
+
+  //setTimeout(()=>{app.ticker.stop()}, 5000)
 }

@@ -12,6 +12,8 @@ import Element from './elements/Element'
 import createScene from './createScene'
 import applyScaleEffect from './scaleEffect'
 import {animate} from './animation'
+import {setTimer, cancelTimer} from './timer'
+import checkSlowMotion from './slowMotion'
 
 
 /*
@@ -23,11 +25,12 @@ function start(app, func) {
   if (func) app.ticker.remove(func)
 
   resetState()
+  app.ticker.speed = 1
 
   const container = createScene(app)
 
-  const loopInstance = function (delta) {
-    loop(delta, {app, container}, loopInstance)
+  const loopInstance = function () {
+    loop({app, container}, loopInstance)
   }
 
   app.ticker.add(loopInstance)
@@ -36,18 +39,24 @@ function start(app, func) {
 }
 
 
-function endGameLoop(delta, app, thisLoop) {
+function endGameLoop(app, thisLoop) {
   tasks.forEach(func => func())
 }
 
 
-function loop(delta, {app, container}, loopInstance) {
+function loop({app, container}, loopInstance) {
 
-  state.count++
+  state.deltaTime = app.ticker.deltaTime
+  state.elapsedMS = app.ticker.elapsedMS
 
-  if (state.count === 121) {
-    state.count = 0
+  checkSlowMotion(app)
+
+  if (DEBUG) {
+    state.totalTimeByFPS++
+    state.totalTimeByDelta += app.ticker.deltaTime
+    state.totalTimeByElapsedMS += app.ticker.elapsedMS
   }
+
 
   // Update some globals
   state.mouse.distanceFromCenter = Math.round(getDistance(
@@ -59,7 +68,14 @@ function loop(delta, {app, container}, loopInstance) {
     state.mouse.distanceFromCenter / state.mouse.maxDistanceFromCenter * 100)
 
   if (DEBUG) {
-    elements.debug.text = state.count
+    elements.debug.text = `
+    tDelta ${state.totalTimeByDelta}
+    tFPS ${state.totalTimeByFPS}
+    tEMS ${state.totalTimeByElapsedMS}
+    FPS ${app.ticker.FPS}
+    slowMO ${state.isSlowMotionActive}
+    NW ${state.timers.nextWave}
+    `
   }
 
   updateBG()
@@ -70,6 +86,9 @@ function loop(delta, {app, container}, loopInstance) {
   collections.towerBullet.forEach(i => i.update())
 
 
+  /*
+  Bullets vs enemies
+   */
   collections.enemy.forEach(enemy => {
 
     const enemyBounds = enemy.el.getBounds()
@@ -86,8 +105,10 @@ function loop(delta, {app, container}, loopInstance) {
         enemyState.life -= 30
         state[bullet.id].life = 0
 
+        // RIP
         if (enemyState.life <= 0) {
           state.score += enemyState.scoreValue
+          state.playerEnergy.value += 100
         }
 
       }
@@ -96,7 +117,9 @@ function loop(delta, {app, container}, loopInstance) {
 
   })
 
-
+ /*
+   Enemy vs player
+ */
   collections.enemy.forEach(enemy => {
     if (!state[enemy.id].life) return
 
@@ -126,9 +149,13 @@ function loop(delta, {app, container}, loopInstance) {
   })
 
 
-  if (state.isBetweenLevels === false && collections.enemy.size < 1) {
+  if (state.isBetweenLevels === false && (collections.enemy.size < 1 || state.scheduledNextWave)) {
     state.isBetweenLevels = true
-    setTimeout(() => {
+    state.scheduledNextWave = false
+
+    const releaseTime = state.level === 0 ? 0 : 3000
+
+    setTimer(() => {
       let y = Math.round(state.level * 1.3) + 5
       while (y) {
 
@@ -142,24 +169,32 @@ function loop(delta, {app, container}, loopInstance) {
         y--
       }
       state.isBetweenLevels = false
-    }, state.nextWave)
+    }, releaseTime, 'releaseEnemies')
+
+    setTimer(()=>{
+      state.scheduledNextWave = true
+    }, 16000, 'nextWave')
+
 
     state.nextWave = 3000
     state.level++
     elements.levelInfo.text = 'LEVEL ' + state.level
   }
 
-
   elements.playerLife.update()
+  elements.playerEnergy.update()
 
   if (state.playerLife.life <= 0) {
 
     elements.levelInfo.text = 'GAME OVER'
 
     collections.enemy.forEach(el => el.stopAnimations())
+    cancelTimer('releaseEnemies')
+    cancelTimer('nextWave')
 
-    const endLoopContainer = function (delta) {
-      endGameLoop(delta, app, endLoopContainer)
+
+    const endLoopContainer = function () {
+      endGameLoop(app, endLoopContainer)
     }
 
     const playBtn = new Element(new PIXI.Text('Play Again', {

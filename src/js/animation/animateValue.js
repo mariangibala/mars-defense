@@ -1,5 +1,7 @@
 'use strict'
 
+import {state} from '../state'
+
 // fix 0.001 precision
 const precisionNum = 1000
 
@@ -8,6 +10,7 @@ function animateValue(_current, _next, duration) {
   const current = _current * precisionNum
   let next = _next * precisionNum
 
+  // 1 is important for smooth animations
   if (Math.abs(next - current) <= 1) {
     return _next
   }
@@ -15,11 +18,11 @@ function animateValue(_current, _next, duration) {
   let step
 
   if (next > current) {
-    step = (next - current) / duration
+    step = (next - current) / duration * state.deltaTime
     next = current + step
   }
   else {
-    step = (current - next) / duration
+    step = (current - next) / duration * state.deltaTime
     next = current - step
   }
 

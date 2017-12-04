@@ -51,7 +51,7 @@ class Enemy extends Element {
       totalLife: 100,
       scoreValue: 100,
       movesCounter: 0,
-      speed: 1.5 + state.level * 0.15,
+      speed: 1.5 + state.level * 0.1,
       widthgm: sizeW,
       heightgm: sizeH,
       maxX: state.scene.width - sizeW,
