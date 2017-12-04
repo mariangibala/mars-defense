@@ -42,8 +42,8 @@ class PlayerLife extends Element {
 
   onUpdate() {
     const s = state[this.id]
-    if (s.life === s.totalLife) return
-    s.life++
+    if (s.life >= s.totalLife) return
+    s.life += state.deltaTime
     this.el.redraw((s.life < 0 ? 0 : s.life / s.totalLife) * this.width, this.height)
   }
 

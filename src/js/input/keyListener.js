@@ -25,8 +25,8 @@ function bindKey(keyCode, name) {
     e.preventDefault()
   }
 
-  window.addEventListener("keydown", downHandler, false)
-  window.addEventListener("keyup", upHandler, false)
+  window.addEventListener('keydown', downHandler, false)
+  window.addEventListener('keyup', upHandler, false)
 }
 
 

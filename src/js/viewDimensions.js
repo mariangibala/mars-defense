@@ -13,25 +13,38 @@
 
  */
 
-const maxWidth = 1280
-const maxHeight = 900
+function setupDimensions() {
 
-const appWrapper = document.querySelector('#app')
+  if (typeof window === 'undefined') {
+    return {
+      width: 0,
+      height: 0,
+    }
+  }
 
-const clientWidth = appWrapper.clientWidth
-const clientHeight = appWrapper.clientHeight
+  const maxWidth = 1280
+  const maxHeight = 900
 
-const viewWidth = clientWidth <= maxWidth ? clientWidth : maxWidth
-const viewHeight = clientHeight <= maxHeight ? clientHeight : maxHeight
+  const appWrapper = document.querySelector('#app')
 
-/*
-Save detected size to ensure rendering scrollbars when windows is resized down
-Initial size is 100vw/100vh and we convert it to pixels.
- */
-appWrapper.style.width = viewWidth + 'px'
-appWrapper.style.height = viewHeight + 'px'
+  const clientWidth = appWrapper.clientWidth
+  const clientHeight = appWrapper.clientHeight
 
-export {
-  viewWidth,
-  viewHeight
+  const viewWidth = clientWidth <= maxWidth ? clientWidth : maxWidth
+  const viewHeight = clientHeight <= maxHeight ? clientHeight : maxHeight
+
+  /*
+  Save detected size to ensure rendering scrollbars when windows is resized down
+  Initial size is 100vw/100vh and we convert it to pixels.
+   */
+  appWrapper.style.width = viewWidth + 'px'
+  appWrapper.style.height = viewHeight + 'px'
+
+  return {
+    width: viewWidth,
+    height: viewHeight
+  }
 }
+
+
+export default setupDimensions

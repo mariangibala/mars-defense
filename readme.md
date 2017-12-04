@@ -13,6 +13,11 @@ https://mariangibala.github.io/mars-defense/
 
 **Mouse 1 or Ctrl** - Shoot
 
+**Space** - Slow motion mode. To activate it you need at least 50% of energy
+(light blue bar).
+
+**P** - pause
+
 ### Attribution Notice
 
 Soldier image created by Tatermand - https://opengameart.org/users/tatermand

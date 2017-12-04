@@ -1,0 +1,4 @@
+{
+  "presets": [["env", { "modules": "umd" }]],
+  "plugins": ["transform-runtime", "syntax-dynamic-import", "transform-class-properties", "transform-object-rest-spread"]
+}
