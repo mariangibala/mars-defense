@@ -59,6 +59,7 @@ function animate({id, prop, to, duration, easing = 'linear', callback, createLoo
 
   const totalTime = duration
 
+
   // expose animation state
   state.animations[id][prop] = {
     animationId,
@@ -67,10 +68,12 @@ function animate({id, prop, to, duration, easing = 'linear', callback, createLoo
     currentTime: 0,
     totalTime,
     _startingValue,
+    _currentValue: _startingValue,
     _finalValue,
     _diff,
     easing
   }
+
 
   function _animate() {
     const animationState = state.animations[id][prop]
@@ -78,10 +81,16 @@ function animate({id, prop, to, duration, easing = 'linear', callback, createLoo
     const factor = easingFunc[easing](animationState.currentTime, totalTime)
 
     let result
+
     if (_finalValue > _startingValue) {
       result = _startingValue + _diff * factor
     } else {
       result = _startingValue - _diff * factor
+    }
+
+    if (DEBUG) {
+      animationState._lastFactor = factor
+      animationState._currentValue = result
     }
 
     const currentValue = result / precisionNum
@@ -89,7 +98,7 @@ function animate({id, prop, to, duration, easing = 'linear', callback, createLoo
     state[id][prop] = currentValue
     elements[id].syncState()
 
-    if (result === _finalValue || animationState.currentTime === totalTime) {
+    if (result === _finalValue || animationState.currentTime > totalTime) {
       tasks.delete(animationId)
       delete state.animations[id][prop]
 
@@ -110,7 +119,7 @@ function animate({id, prop, to, duration, easing = 'linear', callback, createLoo
       return
     }
 
-    animationState.currentTime++
+    animationState.currentTime += state.deltaTime
   }
 
   tasks.set(animationId, _animate)

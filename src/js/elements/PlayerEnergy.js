@@ -9,18 +9,18 @@ import createRectangle from '../createRectangle'
 const blurFilter = new PIXI.filters.BlurFilter
 blurFilter.blur = 1
 
-class PlayerLife extends Element {
+class PlayerEnergy extends Element {
 
   constructor({x, y}, container) {
     super()
 
     this.container = container
-    this.id = 'playerLife'
+    this.id = 'playerEnergy'
 
     this.width = 100
     this.height = 10
 
-    this.el = createRectangle(x, y, this.width, this.height, 0x00ff00)
+    this.el = createRectangle(x, y, this.width, this.height, 0x07f1f3)
 
     const {id, el} = this
 
@@ -28,8 +28,8 @@ class PlayerLife extends Element {
     elements[id] = this
 
     state[id] = {
-      life: 1000,
-      totalLife: 1000
+      value: 10000,
+      totalValue: 10000
     }
 
     this.position(x, y)
@@ -42,12 +42,12 @@ class PlayerLife extends Element {
 
   onUpdate() {
     const s = state[this.id]
-    if (s.life >= s.totalLife) return
-    s.life += state.deltaTime
-    this.el.redraw((s.life < 0 ? 0 : s.life / s.totalLife) * this.width, this.height)
+    if (s.value >= s.totalValue) return
+    s.value += 2 * state.deltaTime
+    this.el.redraw((s.value < 0 ? 0 : s.value / s.totalValue) * this.width, this.height)
   }
 
 }
 
 
-export default PlayerLife
+export default PlayerEnergy

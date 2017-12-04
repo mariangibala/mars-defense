@@ -49,7 +49,7 @@ class Tower extends Element {
     if ((state.mouse.isDown || state.key.ctrl.isDown) && s.isDragging !== true) {
 
       if (s.nextShot > 0) {
-        s.nextShot--
+        s.nextShot -= state.deltaTime
       } else {
         const vector = setVector(
           getRandomIntBetween(state.mouse.x - s.accuracy, state.mouse.x + s.accuracy),

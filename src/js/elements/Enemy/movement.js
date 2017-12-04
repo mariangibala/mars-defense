@@ -18,9 +18,8 @@ function nextMove(id) {
   if (s.movesCounter < 1){
     probability = 0
   } else {
-    probability = 50 + s.movesCounter
+    probability = 30 + s.movesCounter * 3
   }
-
 
   const shouldAttack = chance(probability)
 
@@ -49,6 +48,7 @@ function nextMove(id) {
 
   animate({
     id,
+    debug: true,
     prop: 'y',
     to: position.y,
     easing: 'easeOut',

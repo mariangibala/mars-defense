@@ -6,7 +6,7 @@ import {state, elements} from './state'
 import {getRandomDecimalBetween, getRandomIntBetween} from './helpers'
 import imgs from './imgs'
 import {centerElToScene} from './entityHelpers'
-import {animateLoop, animateValue} from './animation'
+import {animateLoop, animateValue, animateHex} from './animation'
 import Element from './elements/Element'
 
 function createBG(app) {
@@ -26,7 +26,9 @@ function createBG(app) {
       img: imgs.radioactive,
       blendMode: PIXI.BLEND_MODES.ADD,
       alpha: 0.2
-    }]
+    },
+
+  ]
 
   const props = ['tint', 'blendMode', 'alpha']
 
@@ -51,11 +53,19 @@ function createBG(app) {
     }
   })
 
-
 }
 
 
 const bgMovementRange = 50
+
+const slowMotionTintA = [0,0,255]
+const noSlowMotionTintA = [255,255,255]
+
+const slowMotionTintB = [0,0,255]
+const noSlowMotionTintB = [255,255,0]
+
+const slowMotionTintC = [0,255,255]
+const noSlowMotionTintC = [255,255,255]
 
 function updateBG() {
   const scale = 1 - 0.1 * state.mouse.distanceFromCenterPercentage / 100
@@ -93,6 +103,17 @@ function updateBG() {
   elements.bg3.el.x = state.scene.bgX
   elements.bg3.el.y = state.scene.bgY
 
+
+  if (state.isSlowMotionActive || elements.bg.el.tint !== 0xffffff ){
+    elements.bg.el.tint = animateHex(elements.bg.el.tint, state.isSlowMotionActive ?
+      slowMotionTintA : noSlowMotionTintA, 10)
+
+    elements.bg2.el.tint = animateHex(elements.bg2.el.tint, state.isSlowMotionActive ?
+      slowMotionTintB : noSlowMotionTintB, 10)
+
+    elements.bg3.el.tint = animateHex(elements.bg3.el.tint, state.isSlowMotionActive ?
+      slowMotionTintC : noSlowMotionTintC, 10)
+  }
 
 }
 

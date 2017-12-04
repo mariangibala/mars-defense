@@ -1,20 +1,24 @@
 'use strict'
 
-import {viewHeight, viewWidth} from './viewDimensions'
+import setupDimensions from './viewDimensions'
 import {getDistance} from './helpers'
+
+const dimensions = setupDimensions()
 
 const state = {
   animations: {},
   animationsBlocks: {},
 
+  timers: {},
+
   scene: {
 
-    width: viewWidth,
-    height: viewHeight,
-    centerX: viewWidth / 2,
-    centerY: viewHeight / 2,
-    bgX: viewWidth / 2,
-    bgY: viewHeight / 2,
+    width: dimensions.width,
+    height: dimensions.height,
+    centerX: dimensions.width / 2,
+    centerY: dimensions.height / 2,
+    bgX: dimensions.width / 2,
+    bgY: dimensions.height / 2,
 
     bgScale: 1,
     bg2Scale: 1,
@@ -25,23 +29,37 @@ const state = {
   },
 
   key: {
-    ctrl: {}
+    ctrl: {},
+    space: {}
   },
 
   mouse: {
     x: 0,
     y: 0,
-    maxDistanceFromCenter: getDistance(0, 0, viewWidth / 2, viewHeight / 2),
+    maxDistanceFromCenter: getDistance(0, 0, dimensions.width / 2, dimensions.height / 2),
     distanceFromCenter: 0,
     distanceFromCenterPercentage: 0,
     isDown: false
   },
 
-  count: 0,
+  deltaTime: 1,
+  elapsedMS: 0,
+
   level: 0,
-  isBetweenLevels: false,
-  nextWave: 0,
   score: 0,
+
+  isBetweenLevels: false,
+  scheduledNextWave: false,
+
+
+  isSlowMotionActive: false,
+
+  // only in DEBUG
+  totalTimeByFPS: 0,
+  totalTimeByDelta: 0,
+  totalTimeByElapsedMS: 0,
+
+
 }
 
 const defaultState = JSON.parse(JSON.stringify(state))
