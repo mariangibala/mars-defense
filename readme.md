@@ -18,6 +18,12 @@ https://mariangibala.github.io/mars-defense/
 
 **P** - pause
 
+### Screenshots
+
+![mars-defense](/img/screenshot1.png?raw=true)
+
+![mars-defense](/img/screenshot2.png?raw=true)
+
 ### Attribution Notice
 
 Soldier image created by Tatermand - https://opengameart.org/users/tatermand
