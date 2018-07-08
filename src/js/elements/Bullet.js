@@ -38,9 +38,7 @@ class Bullet extends Element {
   }
 
 
-  onUpdate() {
-
-    const s = state[this.id]
+  onUpdate(s) {
 
     s.life -= state.deltaTime
 

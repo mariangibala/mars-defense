@@ -88,13 +88,10 @@ class Enemy extends Element {
     state[this.id].nextDestination = destination
   }
 
-  onUpdate() {
-
-    const s = state[this.id]
+  onUpdate(s) {
 
     if (s.life < 1) {
       this.kill()
-
 
       // make sure that at least one enemy is targeting player
       const nextEnemy = getNextEnemy()

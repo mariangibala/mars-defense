@@ -100,7 +100,8 @@ class Element {
   }
 
   update() {
-    this.onUpdate()
+    const elState = state[this.id]
+    this.onUpdate(elState)
 
     if (this._killed) {
       this._cleanUp()

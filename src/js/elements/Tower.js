@@ -44,9 +44,7 @@ class Tower extends Element {
 
   }
 
-  onUpdate() {
-
-    const s = state[this.id]
+  onUpdate(s) {
 
     if ((state.mouse.isDown || state.key.ctrl.isDown) &&
       s.isDragging !== true &&

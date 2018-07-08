@@ -1,47 +1,25 @@
 'use strict'
 
-const PIXI = require('pixi.js')
+import Bar from './Bar'
+import {state} from '../state'
 
-import Element from './Element'
-import {state, elements} from '../state'
-import createRectangle from '../createRectangle'
-
-const blurFilter = new PIXI.filters.BlurFilter
-blurFilter.blur = 1
-
-class PlayerLife extends Element {
+class PlayerLife extends Bar {
 
   constructor({x, y}, container) {
-    super()
-
-    this.container = container
-    this.id = 'playerLife'
-
-    this.width = 100
-    this.height = 10
-
-    this.el = createRectangle(x, y, this.width, this.height, 0x00ff00)
-
-    const {id, el} = this
-
-
-    elements[id] = this
-
-    state[id] = {
-      life: 1000,
-      totalLife: 1000
-    }
-
-    this.position(x, y)
-
-    el.filters = [blurFilter]
-
-    container.addChild(el)
+    super({
+      x,
+      y,
+      id: 'playerLife',
+      color: 0x00ff00,
+      initialState: {
+        life: 1000,
+        totalLife: 1000
+      }
+    }, container)
 
   }
 
-  onUpdate() {
-    const s = state[this.id]
+  onUpdate(s) {
     if (s.life >= s.totalLife) return
     s.life += state.deltaTime
     this.el.redraw((s.life < 0 ? 0 : s.life / s.totalLife) * this.width, this.height)
