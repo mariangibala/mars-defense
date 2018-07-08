@@ -24,6 +24,10 @@ https://mariangibala.github.io/mars-defense/
 
 ![mars-defense](/img/screenshot2.png?raw=true)
 
+### Known issues
+
+Ubuntu with Nvidia graphics: low and not stable frame rate. Make sure that your system uses proprietary graphic drivers.
+
 ### Attribution Notice
 
 Soldier image created by Tatermand - https://opengameart.org/users/tatermand
