@@ -1,6 +1,8 @@
 #!/bin/bash
 set -e # stop on error
 
+git checkout master
+git branch -D gh-pages
 npm run build:ghpages
 git checkout -b gh-pages
 git add -f dist
