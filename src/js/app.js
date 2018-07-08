@@ -10,6 +10,7 @@ import bindMouse from './input/mouseListener'
 import bindKey from './input/keyListener'
 import initDebugger from './debugger'
 import initPause from './pause'
+import setupMouseIcon from './mouseIcon'
 
 const app = new PIXI.Application(
   state.scene.width,
@@ -24,6 +25,7 @@ if (DEBUG) {
 }
 
 document.querySelector('#app').appendChild(app.view)
+setupMouseIcon(app) // not working from init -> investigate why
 
 // Load textures
 Object.keys(imgs).forEach(key => {
