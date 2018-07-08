@@ -8,6 +8,8 @@ import {state, elements, collections} from '../state'
 import imgs from '../imgs'
 import {rotateToPoint, setVector, getRandomIntBetween} from '../helpers'
 
+const ammoBurnRate = 400
+
 class Tower extends Element {
 
   constructor({x, y}, container) {
@@ -46,11 +48,15 @@ class Tower extends Element {
 
     const s = state[this.id]
 
-    if ((state.mouse.isDown || state.key.ctrl.isDown) && s.isDragging !== true) {
+    if ((state.mouse.isDown || state.key.ctrl.isDown) &&
+      s.isDragging !== true &&
+      state.playerAmmo.value > 0
+    ) {
 
       if (s.nextShot > 0) {
         s.nextShot -= state.deltaTime
       } else {
+
         const vector = setVector(
           getRandomIntBetween(state.mouse.x - s.accuracy, state.mouse.x + s.accuracy),
           getRandomIntBetween(state.mouse.y - s.accuracy, state.mouse.y + s.accuracy),
@@ -60,8 +66,16 @@ class Tower extends Element {
         const bulletX = s.x + vector.x * 3
         const bulletY = s.y + vector.y * 3
 
-        new Bullet({x: bulletX, y: bulletY, vx: vector.x, vy: vector.y, collectionId: 'towerBullet'}, this.container)
+        new Bullet({
+          x: bulletX,
+          y: bulletY,
+          vx: vector.x,
+          vy: vector.y,
+          collectionId: 'towerBullet'
+        }, this.container)
+
         s.nextShot = s.shotRate
+        state.playerAmmo.value -= ammoBurnRate
       }
 
     }

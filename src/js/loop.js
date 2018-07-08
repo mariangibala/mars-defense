@@ -17,8 +17,8 @@ import checkSlowMotion from './slowMotion'
 
 
 /*
-@param {Pixi Application} app
-@param {Function} func in current pixi ticker to be removed.
+ @param {Pixi Application} app
+ @param {Function} func in current pixi ticker to be removed.
  */
 function start(app, func) {
 
@@ -87,7 +87,7 @@ function loop({app, container}, loopInstance) {
 
 
   /*
-  Bullets vs enemies
+   Bullets vs enemies
    */
   collections.enemy.forEach(enemy => {
 
@@ -117,14 +117,19 @@ function loop({app, container}, loopInstance) {
 
   })
 
- /*
+  /*
    Enemy vs player
- */
+   */
   collections.enemy.forEach(enemy => {
     if (!state[enemy.id].life) return
 
     const enemyBounds = enemy.el.getBounds()
-    const center = {x: state.scene.centerX - 10, y: state.scene.centerY - 10, width: 5, height: 5}
+    const center = {
+      x: state.scene.centerX - 10,
+      y: state.scene.centerY - 10,
+      width: 5,
+      height: 5
+    }
 
     const isHit = hitTest(enemyBounds, center)
 
@@ -149,7 +154,9 @@ function loop({app, container}, loopInstance) {
   })
 
 
-  if (state.isBetweenLevels === false && (collections.enemy.size < 1 || state.scheduledNextWave)) {
+  if (state.isBetweenLevels === false &&
+    (collections.enemy.size < 1 || state.scheduledNextWave)) {
+
     state.isBetweenLevels = true
     state.scheduledNextWave = false
 
@@ -171,7 +178,7 @@ function loop({app, container}, loopInstance) {
       state.isBetweenLevels = false
     }, releaseTime, 'releaseEnemies')
 
-    setTimer(()=>{
+    setTimer(() => {
       state.scheduledNextWave = true
     }, 16000, 'nextWave')
 
@@ -183,6 +190,7 @@ function loop({app, container}, loopInstance) {
 
   elements.playerLife.update()
   elements.playerEnergy.update()
+  elements.playerAmmo.update()
 
   if (state.playerLife.life <= 0) {
 

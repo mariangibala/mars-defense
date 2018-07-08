@@ -10,6 +10,7 @@ import {createLight} from './light'
 import Element from './elements/Element'
 import PlayerLife from './elements/PlayerLife'
 import PlayerEnergy from './elements/PlayerEnergy'
+import PlayerAmmo from './elements/PlayerAmmo'
 import {animateLoop} from './animation'
 import {getRandomDecimalBetween, getRandomIntBetween} from './helpers'
 
@@ -54,11 +55,10 @@ function createScene(app) {
   })
 
 
-  // Life
-  new PlayerLife({x: 15, y: state.scene.height - 25}, app.stage)
 
-  // Energy
+  new PlayerLife({x: 15, y: state.scene.height - 25}, app.stage)
   new PlayerEnergy({x: 15, y: state.scene.height - 40}, app.stage)
+  new PlayerAmmo({x: 15, y: state.scene.height - 55}, app.stage)
 
 
   const defaultTextStyle = {fontFamily: 'Arial', fontSize: 14, fill: 'white'}
